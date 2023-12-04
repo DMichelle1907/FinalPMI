@@ -151,20 +151,20 @@
         android:textColor="#FFFFFF"
         android:textSize="16dp"/>
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="321dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="5dp"
-        android:text="Fecha de nacimiento:"
-        android:textColor="#FFFFFF"
-        android:textSize="16dp"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="321dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                android:text="Contraseña:"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/ArFecha"
+        android:id="@+id/ArPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"

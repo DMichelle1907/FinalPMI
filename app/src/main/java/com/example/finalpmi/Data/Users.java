@@ -1,10 +1,10 @@
 package com.example.finalpmi.Data;
 
 public class Users {
-    private static String nombres, apellidos, correo, telefono, dni, fechanac, password, foto;
-    private static Integer cuenta, id_carrera;
+    private static String nombres, apellidos, correo, telefono, dni, password, foto;
+    private static Integer cuenta;
 
-
+    private  static long carrera;
 
     public static String getPhoto() {
         return foto;
@@ -14,16 +14,15 @@ public class Users {
         Users.foto = foto;
     }
 
-    public Users(String nombres, String apellidos, String correo, String dni, String telefono, String fechanac, String password, String rutaFoto){
+    public Users(String nombres, String apellidos, String correo, String dni, String telefono, String password, long carrera){
         this.nombres = nombres;
         this.password=password;
         this.apellidos=apellidos;
         this.telefono=telefono;
         this.correo=correo;
         this.dni=dni;
-        this.fechanac=fechanac;
+        this.carrera=carrera;
     }
-
 
     public static String getNombres() {
         return nombres;
@@ -49,20 +48,20 @@ public class Users {
         Users.correo = correo;
     }
 
+    public static String getTelefono() {
+        return telefono;
+    }
+
+    public static void setTelefono(String telefono) {
+        Users.telefono = telefono;
+    }
+
     public static String getDni() {
         return dni;
     }
 
     public static void setDni(String dni) {
         Users.dni = dni;
-    }
-
-    public static String getFechanac() {
-        return fechanac;
-    }
-
-    public static void setFechanac(String fechanac) {
-        Users.fechanac = fechanac;
     }
 
     public static String getPassword() {
@@ -89,11 +88,11 @@ public class Users {
         Users.cuenta = cuenta;
     }
 
-    public static Integer getId_carrera() {
-        return id_carrera;
+    public static long getCarrera() {
+        return carrera;
     }
 
-    public static void setId_carrera(Integer id_carrera) {
-        Users.id_carrera = id_carrera;
+    public static void setCarrera(long carrera) {
+        Users.carrera = carrera;
     }
 }

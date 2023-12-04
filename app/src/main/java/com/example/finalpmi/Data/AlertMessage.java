@@ -1,0 +1,24 @@
+package com.example.finalpmi.Data;
+
+import android.content.Context;
+import android.content.DialogInterface;
+
+import androidx.appcompat.app.AlertDialog;
+
+public class AlertMessage {
+    public void message(String title, String message, Context context){
+        AlertDialog.Builder builder=new AlertDialog.Builder(context);
+        builder.setMessage(message);
+        builder.setTitle(title);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog dialog=builder.create();
+        dialog.show();
+    }
+}
