@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">ProyectoFinalPMI</string>
+    <string name="mensaje">       Te hemos enviado un codigo de
+        verificacion al correo aleatoriamente
+        indicado para inicio de sesion</string>
+    <string name="mensaje1">    Para completar tu verificacion por favor
+        ingrese el codigo de 6 digitos.</string>
+    <string name="mensaje2">               No recibiste ningún correo?</string>
+    <string name="banner">Crear Grupo</string>
+    <string name="grupo">Grupo:</string>
+    <string name="descripcion">Descripción:</string>
+    <string name="añadirp">Añadir Participante:</string>
+    <string name="addP">Añadir Participantes</string>
+    <string name="buscaru">Buscar Usuarios</string>
+    <string name="person1">Brayan Aguilar</string>
+    <string name="title_activity_add">ActivityAdd</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="perfil">Jose Reyes</string>
+
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_users">Usuarios</string>
+    <string name="menu_messages">Mensajes</string>
+    <string name="menu_groups">Grupos</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="menu_exit">Salir</string>
+    <string name="title_activity_main">MainActivity</string>
+
+
+
+    <string name="title_activity_menu">ActivityMenu</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Inicio</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string-array name="country_array">
+        <item>Ingeneniería en computación</item>
+        <item>Ingeniería en Electrónica</item>
+        <item>Ingeniería en Producción Industrial</item>
+        <item>Licenciatura en Marketing</item>
+        <item>Licenciatura en Turismo</item>
+        <item>Licenciatura en Derecho</item>
+        <item>Licenciatura en Gerencia de Negocios</item>
+        <item>Licenciatura en Psicología</item>
+    </string-array>
+</resources>

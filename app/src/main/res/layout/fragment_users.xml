@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.users.UsersFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/ListUsuariosG"
+            android:layout_width="414dp"
+            android:layout_height="492dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnBuscarUsuario"
+            tools:ignore="MissingConstraints" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+            android:id="@+id/btnBuscarUsuario"
+            android:layout_width="36dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:foreground="@android:drawable/ic_menu_search"
+            android:text="Buscar"
+            app:layout_constraintEnd_toStartOf="@+id/edtBuscar"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/edtBuscar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="84dp"
+            android:backgroundTint="#00897B"
+            android:ems="10"
+            android:hint="Buscar"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="31dp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="51dp"
+            android:layout_marginBottom="116dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="51dp"
+            android:layout_marginTop="52dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout2"/>
+
+        <TextView
+            android:id="@+id/textuser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="57dp"
+            tools:ignore="MissingConstraints" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAgregarUsuario"
+            android:layout_width="48dp"
+            android:layout_height="47dp"
+            android:clickable="true"
+            android:src="@drawable/ic_launcher_addperson"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.222"
+            app:layout_constraintStart_toEndOf="@+id/edtBuscar"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="29dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
