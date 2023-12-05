@@ -20,7 +20,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="perfil">Jose Reyes</string>
-
+    <string name="text_splash">CONNECT</string>
     <string name="menu_profile">Perfil</string>
     <string name="menu_users">Usuarios</string>
     <string name="menu_messages">Mensajes</string>
