@@ -90,9 +90,8 @@
         android:layout_height="wrap_content"
         android:text="¿Olvidaste tu contraseña?"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:textStyle="italic" />
+        android:textStyle="bold|italic" />
 
 
     <Button
