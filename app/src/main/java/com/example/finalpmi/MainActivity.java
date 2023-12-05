@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentUsersBinding binding;
     EditText edtCorreo, edtPassword;
     Button btnRegistrarse, btnIniciar;
-    TextView nombrePerfil, correoPerfil;
+    TextView nombrePerfil, correoPerfil, txtReenvio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,18 @@ public class MainActivity extends AppCompatActivity {
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         btnRegistrarse = (Button) findViewById(R.id.btnRegistrarse);
         btnIniciar = (Button) findViewById(R.id.btnIniciar);
+        txtReenvio = (TextView)findViewById(R.id.txtrecuperar);
+
+        txtReenvio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Aquí inicias la ActivityReenvio
+                Intent intent = new Intent(MainActivity.this, ActivityReenvio.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
