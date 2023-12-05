@@ -25,6 +25,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.finalpmi.Data.ResApi;
 import com.example.finalpmi.databinding.FragmentUsersBinding;
 import com.example.finalpmi.ui.home.HomeViewModel;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,16 +40,19 @@ public class MainActivity extends AppCompatActivity {
     EditText edtCorreo, edtPassword;
     Button btnRegistrarse, btnIniciar;
     TextView nombrePerfil, correoPerfil, txtReenvio;
+    FirebaseFirestore mfirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mfirestore = FirebaseFirestore.getInstance();
         edtCorreo = (EditText) findViewById(R.id.edtCorreo);
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         btnRegistrarse = (Button) findViewById(R.id.btnRegistrarse);
         btnIniciar = (Button) findViewById(R.id.btnIniciar);
         txtReenvio = (TextView)findViewById(R.id.txtrecuperar);
+
 
         txtReenvio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,5 +152,31 @@ public class MainActivity extends AppCompatActivity {
         };
 
         queue.add(request);
+    }
+    public void confirmar_usuario_firebase(){
+        CollectionReference usuariosRef = mfirestore.collection("usuario");
+
+// Define el correo y la contraseña ingresados por el usuario
+        String correoIngresado = edtCorreo.getText().toString().trim();
+        String pass_usuario = edtPassword.getText().toString().trim();
+
+// Realiza la consulta en Firestore
+        usuariosRef.whereEqualTo("correo", correoIngresado)
+                .whereEqualTo("password", pass_usuario)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            // Usuario encontrado, las credenciales son correctas
+
+                            Intent intent = new Intent(MainActivity.this, ActivityMenu.class);
+                            startActivity(intent);
+                        }
+                    } else {
+                        // Error al realizar la consulta
+                        // Manejar el error según sea necesario
+                    }
+                });
+
     }
 }
