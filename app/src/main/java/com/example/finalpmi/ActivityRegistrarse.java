@@ -65,10 +65,12 @@ public class ActivityRegistrarse extends AppCompatActivity {
                 // Crear un objeto Usuario
                 Users usuario = new Users(nombres, apellidos, correo, telefono, dni, password, carrera);
                 NewUser(usuario);
+
             }
         });
     }
     private void NewUser(Users usuario){
+
         RequestQueue queue= Volley.newRequestQueue(this);//queue=cola
 
         String url= ResApi.url_server+ResApi.insert_user;
@@ -141,14 +143,14 @@ public class ActivityRegistrarse extends AppCompatActivity {
 
         String url=ResApi.url_server+ResApi.select_careers;
         RequestQueue queue=Volley.newRequestQueue(this);//queue=cola
-
+        Log.d("url", url);
         StringRequest request=new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response){
                         try{
                             JSONObject jsonArray=new JSONObject(response);
-
+                            Log.d("json", String.valueOf(jsonArray));
                             String[] careers=new String[jsonArray.length()];
                             for (int i=0; i<jsonArray.length(); i++) {
                                 JSONObject career_object=jsonArray.getJSONObject(String.valueOf(i));//career_object=objeto carrera
