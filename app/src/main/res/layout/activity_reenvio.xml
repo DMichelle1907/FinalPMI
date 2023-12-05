@@ -40,22 +40,22 @@
         android:id="@+id/editTextNumberPassword"
         android:layout_width="match_parent"
         android:layout_height="87dp"
-        android:textColor="#FFFFFF"
         android:ems="10"
-        android:inputType="numberPassword" />
+        android:inputType="numberPassword"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/timerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:layout_marginStart="10dp"
         android:layout_gravity="center"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
+        android:text="Tiempo restante: 60 segundos"
+        android:textColor="#FFFFFF"
         android:textSize="15sp"
-        android:textStyle="bold"
-        android:text="Tiempo restante: 60 segundos" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView3"
@@ -76,12 +76,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/emailEditText"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginStart="50dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="50dp"
-        android:gravity="center"
-        android:layout_gravity="center"
         android:backgroundTint="@color/white"
+        android:gravity="center"
         android:text="Volver a enviar"
         android:textColor="@color/black"
         android:textSize="24sp"
