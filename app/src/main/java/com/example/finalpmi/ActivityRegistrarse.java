@@ -1,17 +1,32 @@
 package com.example.finalpmi;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,6 +43,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +55,10 @@ public class ActivityRegistrarse extends AppCompatActivity {
     EditText edtNombres, edtApellidos, edtCorreo, edtTelefono, edtDni, edtPassword;
     Button btnRegistrarse;
     Spinner Spinner;
-
+    ImageView Img;
+    String currentPhotoPath;
+    static final int Peticion_AccesoCamara = 101;
+    static final int Peticion_TomarFoto = 102;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +72,16 @@ public class ActivityRegistrarse extends AppCompatActivity {
         edtPassword = (EditText) findViewById(R.id.ArPassword);
         Spinner = (Spinner) findViewById(R.id.spinner);
         btnRegistrarse = (Button) findViewById(R.id.btnARegistrarse);
+        Img = (ImageView)findViewById(R.id.ImgPerfil);
+
+
+        Img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Permisos();
+            }
+        });
+
 
         btnRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +94,7 @@ public class ActivityRegistrarse extends AppCompatActivity {
                 String dni = edtDni.getText().toString();
                 String password = edtPassword.getText().toString();
                 long carrera = Spinner.getSelectedItemId();
-
+                GuardarDatos();
                 // Crear un objeto Usuario
                 Users usuario = new Users(nombres, apellidos, correo, telefono, dni, password, carrera);
                 NewUser(usuario);
@@ -69,6 +102,97 @@ public class ActivityRegistrarse extends AppCompatActivity {
             }
         });
     }
+
+    public void GuardarDatos() {
+      //Aqui Guardar los datos
+    }
+    private void Permisos(){
+        // Metodo para obtener los permisos requeridos de la aplicacion
+        if(ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA},Peticion_AccesoCamara);
+        }
+        else
+        {
+            dispatchTakePictureIntent();
+            //TomarFoto();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode ==  Peticion_AccesoCamara){
+            if (grantResults.length>0&&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+            }{
+                Toast.makeText(getApplicationContext(),"Se necesita permiso de la camara",Toast.LENGTH_LONG);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==Peticion_TomarFoto){
+//            Bundle extras = data.getExtras();
+//            Bitmap imagen = (Bitmap) extras.get("data");
+//            Objetoimagen.setImageBitmap(imagen);
+            try {
+                File foto = new File(currentPhotoPath);
+                Img.setImageURI(Uri.fromFile(foto));
+            }
+            catch (Exception ex)
+            {
+                ex.toString();
+            }
+        }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                ex.toString();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.tarea23pmi.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, Peticion_TomarFoto);
+            }
+        }
+    }
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use  with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    private String convertImage64(String path){
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+        byte[] imagearray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imagearray,Base64.DEFAULT);
+    }
+
     private void NewUser(Users usuario){
 
         RequestQueue queue= Volley.newRequestQueue(this);//queue=cola
@@ -138,6 +262,8 @@ public class ActivityRegistrarse extends AppCompatActivity {
 
         queue.add(request);
     }
+
+
     private void ListaCarreras(){//fill_career=llenar carreras
         Message messageListaCarrera = new Message();
 
