@@ -34,7 +34,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:backgroundTint="@color/material_dynamic_primary70"
             tools:ignore="MissingConstraints" />
 
         <EditText
@@ -84,7 +83,6 @@
             android:layout_width="48dp"
             android:layout_height="47dp"
             android:clickable="true"
-            app:backgroundTint="@color/material_dynamic_primary70"
             android:src="@drawable/ic_launcher_addperson"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.222"

@@ -205,7 +205,6 @@
         android:layout_marginTop="88dp"
         android:clickable="true"
         android:src="@drawable/ic_edit"
-        app:backgroundTint="@color/material_dynamic_primary70"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imgEdit"
