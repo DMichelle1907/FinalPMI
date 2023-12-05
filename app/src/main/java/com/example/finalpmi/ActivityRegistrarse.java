@@ -1,10 +1,8 @@
 package com.example.finalpmi;
 
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -36,12 +34,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.finalpmi.Data.AlertMessage;
 import com.example.finalpmi.Data.ResApi;
 import com.example.finalpmi.Data.Users;
-import com.example.finalpmi.ui.home.HomeFragment;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -78,7 +73,7 @@ public class ActivityRegistrarse extends AppCompatActivity {
         btnRegistrarse = (Button) findViewById(R.id.btnARegistrarse);
         Img = (ImageView)findViewById(R.id.ImgPerfil);
 
-
+        ListaCarreras(Spinner);
         Img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +93,7 @@ public class ActivityRegistrarse extends AppCompatActivity {
                 String dni = edtDni.getText().toString();
                 String password = edtPassword.getText().toString();
                 long carrera = Spinner.getSelectedItemId();
-                GuardarDatos();
+
                 // Crear un objeto Usuario
                 Users usuario = new Users(nombres, apellidos, correo, telefono, dni, password, carrera);
                 NewUser(usuario);
@@ -296,7 +291,7 @@ public class ActivityRegistrarse extends AppCompatActivity {
     }
 
 
-    private void ListaCarreras(){//fill_career=llenar carreras
+    private void ListaCarreras(android.widget.Spinner spinner){//fill_career=llenar carreras
         Message messageListaCarrera = new Message();
 
         String url=ResApi.url_server+ResApi.select_careers;
@@ -318,8 +313,8 @@ public class ActivityRegistrarse extends AppCompatActivity {
                                 careers[i]=career;
                             }
 
-                            ArrayAdapter<String> adapter=new ArrayAdapter<>(ActivityRegistrarse.this, android.R.layout.simple_spinner_item, careers);//adapter=adaptador
-                            Spinner.setAdapter(adapter);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(ActivityRegistrarse.this, android.R.layout.simple_spinner_item, careers);
+                            spinner.setAdapter(adapter);
 
                         }catch(JSONException e){
                             e.printStackTrace();
