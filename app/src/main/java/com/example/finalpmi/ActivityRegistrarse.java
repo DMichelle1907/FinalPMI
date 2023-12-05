@@ -165,9 +165,6 @@ public class ActivityRegistrarse extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Peticion_TomarFoto) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imagen = (Bitmap) extras.get("data");
-//            Objetoimagen.setImageBitmap(imagen);
             try {
                 File foto = new File(currentPhotoPath);
                 Img.setImageURI(Uri.fromFile(foto));

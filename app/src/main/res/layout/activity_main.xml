@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back"
+    android:background="@drawable/paisajee"
     android:orientation="vertical"
     android:textAlignment="center"
     tools:context=".MainActivity">
@@ -43,6 +43,7 @@
         android:ems="10"
         android:inputType="text"
         android:text=""
+        android:textSize="18sp"
         android:textColor="#FBFAFA" />
 
     <TextView
@@ -65,6 +66,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:textColor="#FBFAFA"
+        android:textSize="18sp"
+        android:inputType="textPassword"
         />
 
     <Button

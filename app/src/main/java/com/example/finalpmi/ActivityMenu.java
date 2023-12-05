@@ -34,18 +34,16 @@ public class ActivityMenu extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("correo")) {
             String correo = intent.getStringExtra("correo");
-
-            // Ahora, puedes usar el correo para actualizar el TextView en el nav_header
             NavigationView navigationView = findViewById(R.id.nav_view);
             View headerView = navigationView.getHeaderView(0);
             TextView correoPerfil = headerView.findViewById(R.id.CorreoPerfil);
             correoPerfil.setText(correo);
+
         }
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_profile, R.id.nav_users, R.id.nav_messages, R.id.nav_groups, R.id.nav_settings, R.id.nav_exit)
                 .setOpenableLayout(drawer)
@@ -76,16 +74,18 @@ public class ActivityMenu extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+
+        // Comparar el id con el id del elemento de menú, no con el NavController
         if (id == R.id.nav_exit) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
+            finish();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 
 }

@@ -30,6 +30,7 @@
             android:clickable="true"
             android:foreground="@android:drawable/ic_menu_search"
             android:text="Buscar"
+            app:backgroundTint="@color/material_dynamic_primary70"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"    tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="16dp" />
@@ -79,6 +80,7 @@
             app:layout_constraintHorizontal_bias="0.724"
             app:layout_constraintStart_toEndOf="@+id/edtBuscarGrupos"
             tools:layout_editor_absoluteY="27dp"
+            app:backgroundTint="@color/material_dynamic_primary70"
             tools:ignore="MissingConstraints" />
 
 
