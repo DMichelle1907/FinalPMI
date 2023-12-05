@@ -176,7 +176,6 @@ public class ActivityRegistrarse extends AppCompatActivity {
             }
 
         });
-
         queue.add(request);
     }
     private void messageErrorVolley(String error, String s, ActivityRegistrarse activityRegistrarse) {
