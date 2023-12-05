@@ -28,6 +28,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ActivityRegistrarse extends AppCompatActivity {
     EditText edtNombres, edtApellidos, edtCorreo, edtTelefono, edtDni, edtPassword;
     Button btnRegistrarse;
@@ -69,37 +72,66 @@ public class ActivityRegistrarse extends AppCompatActivity {
         RequestQueue queue= Volley.newRequestQueue(this);//queue=cola
 
         String url= ResApi.url_server+ResApi.insert_user;
-        StringRequest request=new StringRequest(Request.Method.POST, url,//request=peticion
-                new Response.Listener<String>() {
-                    AlertMessage message = new AlertMessage();
-                    @Override
-                    public void onResponse(String response){
-                        Log.e("array",response+"");
-                        try{
-                            JSONArray jsonArray=new JSONArray(response);
-                            Log.e("array",jsonArray+"");
 
-                            if(jsonArray.length()>0){
-                                message("Alerta", "Correo ya esta en uso",ActivityRegistrarse.this);
-                            }else{
-                                Intent new_window=new Intent(getApplicationContext(), HomeFragment.class);//new_window=nueva ventana
+        // Crear un objeto Usuario
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("nombre",Users.getNombres());
+            jsonObject.put("apellidos",Users.getApellidos());
+            jsonObject.put("identidad",Users.getDni());
+            jsonObject.put("telefono",Users.getTelefono());
+            jsonObject.put("password",Users.getPassword());
+            jsonObject.put("email",Users.getCorreo());
+            jsonObject.put("foto",Users.getPhoto());
+            jsonObject.put("carrera",Users.getCarrera());
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Manejar la respuesta del servidor JSON
+                        try{
+                            JSONObject jsonObject1=new JSONObject(response);
+
+                            if(jsonObject1.length()>0){
+
+                                Intent new_window=new Intent(getApplicationContext(), ActivityMenu.class);//new_window=nueva ventana
                                 startActivity(new_window);
+                            }else{
+                                message("Alerta","Ya existe una cuenta!");
                             }
 
-                        }catch(Exception e){
-                            Log.e("array","Error");
+                        }catch(JSONException e){
+                            e.printStackTrace();
+                            Log.d("JSON", String.valueOf(e));
+                            Toast.makeText(getApplicationContext(), "Error:"+e, Toast.LENGTH_LONG).show();
                         }
                     }
-                },
-                new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String errorMessage = "Error: " + error.getMessage();
-                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-                        Log.e("Volley Error", errorMessage);
-                    }
-                }){
 
+                    private void message(String alerta, String s) {
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Manejar errores de la solicitud
+            }
+        })
+
+        {
+            @Override
+            public byte[] getBody() {
+                return jsonObject.toString().getBytes();
+            }
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
         };
 
         queue.add(request);
@@ -115,11 +147,11 @@ public class ActivityRegistrarse extends AppCompatActivity {
                     @Override
                     public void onResponse(String response){
                         try{
-                            JSONArray jsonArray=new JSONArray(response);
+                            JSONObject jsonArray=new JSONObject(response);
 
                             String[] careers=new String[jsonArray.length()];
                             for (int i=0; i<jsonArray.length(); i++) {
-                                JSONObject career_object=jsonArray.getJSONObject(i);//career_object=objeto carrera
+                                JSONObject career_object=jsonArray.getJSONObject(String.valueOf(i));//career_object=objeto carrera
                                 String id=career_object.getString("id");
                                 String name=career_object.getString("carrera");
                                 String career=id+"-"+name;
