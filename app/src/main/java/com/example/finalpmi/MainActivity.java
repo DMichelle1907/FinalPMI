@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    Intent intent = new Intent(MainActivity.this, ActivityRegistrarse.class);
-                    startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, ActivityRegistrarse.class);
+                startActivity(intent);
 
             }
         });
@@ -69,13 +69,15 @@ public class MainActivity extends AppCompatActivity {
         Message message = new Message();
         String url =  ResApi.url_server+ResApi.login;
         RequestQueue queue = Volley.newRequestQueue(this);
-
+        Log.d("JSON", String.valueOf(url));
         // Crear un objeto Usuario
 
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("email",correo);
             jsonObject.put("password",password);
+
+            Log.d("Valores", String.valueOf(jsonObject));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -86,10 +88,11 @@ public class MainActivity extends AppCompatActivity {
                         // Manejar la respuesta del servidor JSON
                         try{
                             JSONObject jsonObject1=new JSONObject(response);
-
+                            Log.d("Respuesta", String.valueOf(jsonObject1));
                             if(jsonObject1.length()>0){
-
+                                String correo = edtCorreo.getText().toString();
                                 Intent new_window=new Intent(getApplicationContext(), ActivityMenu.class);//new_window=nueva ventana
+                                new_window.putExtra("correo", correo);
                                 startActivity(new_window);
                             }else{
                                 message("Alerta","Numero de cuenta o usuario incorrecto");
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 return headers;
             }
         };
-        
+
         queue.add(request);
     }
 }
