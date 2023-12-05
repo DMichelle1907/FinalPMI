@@ -94,28 +94,6 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject jsonObject1=new JSONObject(response);
                             Log.d("Respuesta", String.valueOf(jsonObject1));
                             if(jsonObject1.length()>0){
-                                // Dentro de tu onResponse de Volley después de un registro o inicio de sesión exitoso
-                                String token = jsonObject1.getString("token"); // Obtiene el valor del campo 'token'
-                                String userId = jsonObject1.getString("id"); // Obtiene el valor del campo 'userId'
-                                String carrera = jsonObject1.getString("carrera"); // Obtiene el valor del campo 'carrera'
-
-                                // Guardar el token en SharedPreferences
-                                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("token", token);
-                                editor.putString("userId", userId);
-                                editor.putString("carrera", carrera);
-                                editor.apply();
-
-                                // Recuperar los valores utilizando las claves correspondientes
-                                String savedToken = sharedPreferences.getString("token", ""); // Obtener el token guardado, "" es un valor por defecto si no encuentra nada
-                                String savedUserId = sharedPreferences.getString("userId", ""); // Obtener el ID de usuario guardado
-                                String savedCarrera = sharedPreferences.getString("carrera", ""); // Obtener la carrera guardada
-
-                                // Mostrar los valores en el registro Log
-                                Log.d("TAG", "Token: " + savedToken);
-                                Log.d("TAG", "User ID: " + savedUserId);
-                                Log.d("TAG", "Carrera: " + savedCarrera);
 
                                 String correo = edtCorreo.getText().toString();
                                 Intent new_window=new Intent(getApplicationContext(), ActivityMenu.class);//new_window=nueva ventana
