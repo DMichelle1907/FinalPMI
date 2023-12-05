@@ -102,7 +102,8 @@ public class ActivityRegistrarse extends AppCompatActivity {
                 // Crear un objeto Usuario
                 Users usuario = new Users(nombres, apellidos, correo, telefono, dni, password, carrera);
                 NewUser(usuario);
-
+                Intent new_window=new Intent(getApplicationContext(), ActivityReenvio.class);//new_window=nueva ventana
+                startActivity(new_window);
             }
         });
     }

@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">ProyectoFinalPMI</string>
-    <string name="mensaje">       Te hemos enviado un codigo de
-        verificacion al correo aleatoriamente
-        indicado para inicio de sesion</string>
-    <string name="mensaje1">    Para completar tu verificacion por favor
-        ingrese el codigo de 6 digitos.</string>
-    <string name="mensaje2">               No recibiste ningún correo?</string>
+    <string name="mensaje">Te hemos enviado un código de verificación
+a tu correo para inicio de sesión. Para completar la verificación por favor ingrese el código de 6 dígitos.</string>
+    <string name="mensaje1"></string>
+    <string name="mensaje2">¿No recibiste ningún código?</string>
     <string name="banner">Crear Grupo</string>
     <string name="grupo">Grupo:</string>
     <string name="descripcion">Descripción:</string>

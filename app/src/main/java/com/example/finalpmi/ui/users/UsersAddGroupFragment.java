@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class UsersAddGroupFragment extends Fragment {
     private ArrayList<String> usersList;
     private ArrayAdapter<String> adapter;
 
-   Spinner Spinner;
+  ListView listView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,28 +48,26 @@ public class UsersAddGroupFragment extends Fragment {
         binding = FragmentAddusersgroupsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         btnAgregaraGrupo =  root.findViewById(R.id.btnAgregarUGrupo);
-        Spinner = root.findViewById(R.id.ListUsuariosG);
+        listView = root.findViewById(R.id.ListUsuariosG);
 
         // Inicializa usersList
         usersList = new ArrayList<>();
 
         // Inicializa ArrayAdapter
-        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, usersList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, usersList);
 
-        // Establece el adaptador en el Spinner
-        Spinner.setAdapter(adapter);
+        // Establece el adaptador en el ListView
+        listView.setAdapter(adapter);
 
         // Realiza la solicitud a la red
-        fetchDataForSpinner();
+        fetchDataForListView();
 
         return root;
     }
 
-    private void fetchDataForSpinner() {
+    private void fetchDataForListView() {
         // Reemplaza con el endpoint de tu API para obtener usuarios por carrera
-        String url =  ResApi.url_server+ResApi.select_userByCareer+"?"+1; // Reemplaza 1 con el ID de carrera real
-
+        String url =  ResApi.url_server + ResApi.select_userByCareer + "?" + 1;
         RequestQueue queue = Volley.newRequestQueue(requireContext());
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -77,7 +76,8 @@ public class UsersAddGroupFragment extends Fragment {
                     public void onResponse(String response) {
                         try {
                             // Parsear la respuesta JSON manualmente
-                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONArray jsonArray = jsonResponse.getJSONArray("users");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject usuarioJson = jsonArray.getJSONObject(i);
@@ -91,19 +91,20 @@ public class UsersAddGroupFragment extends Fragment {
                             adapter.notifyDataSetChanged(); // Notifica al adaptador sobre el cambio de datos
                         } catch (JSONException e) {
                             e.printStackTrace();
-
+                            Toast.makeText(requireContext(), "Error al procesar la respuesta JSON", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-
+                Toast.makeText(requireContext(), "Error de red al obtener datos", Toast.LENGTH_SHORT).show();
             }
         });
 
         queue.add(stringRequest);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
