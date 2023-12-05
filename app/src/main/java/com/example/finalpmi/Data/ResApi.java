@@ -3,7 +3,7 @@ package com.example.finalpmi.Data;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ResApi extends AppCompatActivity {
-    public static final String url_server="https://44c5-45-190-187-105.ngrok-free.app/";
+    public static final String url_server="https://6a5b-45-190-187-105.ngrok-free.app/";
     public static final String insert_user="signUp";
     public static final String select_careers="careers";
     public static final String select_userByCareer="userByCareer";
