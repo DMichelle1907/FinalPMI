@@ -166,7 +166,6 @@ public class ActivityRegistrarse extends AppCompatActivity {
                             messageListaCarrera("Error", "Revisa bien: "+e, ActivityRegistrarse.this);
                         }
                     }
-
                     private void messageListaCarrera(String error, String s, ActivityRegistrarse activityRegistrarse) {
                     }
                 },new Response.ErrorListener() {
