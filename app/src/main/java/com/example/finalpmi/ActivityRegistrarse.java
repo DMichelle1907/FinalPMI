@@ -1,6 +1,7 @@
 package com.example.finalpmi;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -57,6 +59,8 @@ public class ActivityRegistrarse extends AppCompatActivity {
     Spinner Spinner;
     ImageView Img;
     String currentPhotoPath;
+    static final int Peticion_ElegirGaleria = 103;
+
     static final int Peticion_AccesoCamara = 101;
     static final int Peticion_TomarFoto = 102;
     @Override
@@ -78,7 +82,7 @@ public class ActivityRegistrarse extends AppCompatActivity {
         Img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Permisos();
+                MostrarDialogoOpciones();
             }
         });
 
@@ -117,7 +121,34 @@ public class ActivityRegistrarse extends AppCompatActivity {
             dispatchTakePictureIntent();
             //TomarFoto();
         }
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, Peticion_AccesoCamara);
+        }
     }
+
+    private void MostrarDialogoOpciones() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Elige una opción");
+        String[] opciones = {"Tomar foto", "Elegir de la galería"};
+        builder.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    // Tomar foto
+                   Permisos();
+                } else {
+                    // Abrir galería
+                    AbrirGaleria();
+                }
+            }
+        });
+        builder.show();
+    }
+    private void AbrirGaleria() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, Peticion_ElegirGaleria);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -133,20 +164,23 @@ public class ActivityRegistrarse extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==Peticion_TomarFoto){
+        if (requestCode == Peticion_TomarFoto) {
 //            Bundle extras = data.getExtras();
 //            Bitmap imagen = (Bitmap) extras.get("data");
 //            Objetoimagen.setImageBitmap(imagen);
             try {
                 File foto = new File(currentPhotoPath);
                 Img.setImageURI(Uri.fromFile(foto));
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.toString();
             }
+        } else if (requestCode == Peticion_ElegirGaleria && resultCode == RESULT_OK) {
+            // Elegir de la galería
+            Uri selectedImage = data.getData();
+            Img.setImageURI(selectedImage);
         }
     }
+
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
