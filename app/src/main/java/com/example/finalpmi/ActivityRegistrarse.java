@@ -174,6 +174,7 @@ public class ActivityRegistrarse extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 messageErrorVolley("Error", "Revisa bien: "+error, ActivityRegistrarse.this);
             }
+
         });
 
         queue.add(request);
