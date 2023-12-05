@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +38,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.finalpmi.Data.ResApi;
 import com.example.finalpmi.Data.Users;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,8 +46,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class ActivityRegistrarse extends AppCompatActivity {
@@ -58,10 +63,14 @@ public class ActivityRegistrarse extends AppCompatActivity {
 
     static final int Peticion_AccesoCamara = 101;
     static final int Peticion_TomarFoto = 102;
+    Integer carreraIds = null;
+    List<String> nombresCarreras = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarse);
+
+
 
         edtNombres = (EditText) findViewById(R.id.ArNombres);
         edtApellidos = (EditText) findViewById(R.id.ArApellidos);
@@ -235,8 +244,7 @@ public class ActivityRegistrarse extends AppCompatActivity {
             jsonObject.put("telefono",Users.getTelefono());
             jsonObject.put("password",Users.getPassword());
             jsonObject.put("email",Users.getCorreo());
-            jsonObject.put("foto",Users.getPhoto());
-            jsonObject.put("carrera",Users.getCarrera());
+            jsonObject.put("carrera",carreraIds);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -296,40 +304,56 @@ public class ActivityRegistrarse extends AppCompatActivity {
         String url=ResApi.url_server+ResApi.select_careers;
         RequestQueue queue=Volley.newRequestQueue(this);//queue=cola
         Log.d("url", url);
-        StringRequest request=new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>(){
+        StringRequest request = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response){
-                        try{
-                            JSONObject jsonArray=new JSONObject(response);
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
                             Log.d("json", String.valueOf(jsonArray));
-                            String[] careers=new String[jsonArray.length()];
-                            for (int i=0; i<jsonArray.length(); i++) {
-                                JSONObject career_object=jsonArray.getJSONObject(String.valueOf(i));//career_object=objeto carrera
-                                String id=career_object.getString("id");
-                                String name=career_object.getString("carrera");
-                                String career=id+"-"+name;
-                                careers[i]=career;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject careerObject = jsonArray.getJSONObject(i);
+                                String id = careerObject.getString("id");
+                                String name = careerObject.getString("carrera");
+
+                                nombresCarreras.add(name);
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(ActivityRegistrarse.this, android.R.layout.simple_spinner_item, careers);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(ActivityRegistrarse.this, android.R.layout.simple_spinner_item, nombresCarreras);
                             spinner.setAdapter(adapter);
 
-                        }catch(JSONException e){
+                            // Aquí se define el OnItemSelectedListener
+                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    // Obtener el ID seleccionado según la posición del Spinner
+                                    carreraIds = position;
+
+                                    // Puedes usar el ID seleccionado como desees aquí
+                                    Log.d("ID seleccionado", String.valueOf(carreraIds));
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                    // Acción en caso de que no se seleccione nada
+                                }
+                            });
+
+                        } catch (JSONException e) {
                             e.printStackTrace();
-                            messageListaCarrera("Error", "Revisa bien: "+e, ActivityRegistrarse.this);
                         }
                     }
-                    private void messageListaCarrera(String error, String s, ActivityRegistrarse activityRegistrarse) {
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("VolleyError", error.toString());
                     }
-                },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                messageErrorVolley("Error", "Revisa bien: "+error, ActivityRegistrarse.this);
-            }
+                });
 
-        });
         queue.add(request);
+
     }
     private void messageErrorVolley(String error, String s, ActivityRegistrarse activityRegistrarse) {
     }
