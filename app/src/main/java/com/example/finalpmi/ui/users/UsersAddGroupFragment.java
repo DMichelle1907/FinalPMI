@@ -67,7 +67,7 @@ public class UsersAddGroupFragment extends Fragment {
 
     private void fetchDataForListView() {
         // Reemplaza con el endpoint de tu API para obtener usuarios por carrera
-        String url =  ResApi.url_server + ResApi.select_userByCareer + "?" + 1;
+        String url =  ResApi.url_server+ResApi.select_userByCareer+"?id_carrera="+1;
         RequestQueue queue = Volley.newRequestQueue(requireContext());
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

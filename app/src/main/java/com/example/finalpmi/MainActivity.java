@@ -20,7 +20,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.finalpmi.Data.ResApi;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentUsersBinding binding;
     EditText edtCorreo, edtPassword;
     Button btnRegistrarse, btnIniciar;
-    TextView txtReenvio;
+    TextView nombrePerfil, correoPerfil, txtReenvio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +51,9 @@ public class MainActivity extends AppCompatActivity {
         txtReenvio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String correo = edtCorreo.getText().toString().trim();
-
-                if (correo.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Por favor, ingresa tu correo", Toast.LENGTH_SHORT).show();
-                } else {
-                    sendVerificationEmail(correo);
-                    Intent intent = new Intent(MainActivity.this, ActivityReenvio.class);
-                    intent.putExtra("correo", correo);
-                    startActivity(intent);
-
-                }
+                // Aquí inicias la ActivityReenvio
+                Intent intent = new Intent(MainActivity.this, ActivityReenvio.class);
+                startActivity(intent);
             }
         });
 
@@ -155,10 +146,5 @@ public class MainActivity extends AppCompatActivity {
         };
 
         queue.add(request);
-    }
-
-
-    private void sendVerificationEmail(String correo) {
-
     }
 }
