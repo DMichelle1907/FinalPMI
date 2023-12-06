@@ -8,6 +8,7 @@ public class ResApi extends AppCompatActivity {
     public static final String select_careers="careers";
     public static final String select_userByCareer="userByCareer";
     public static final String send_mail="forgot-password";
+
     public static final String update_password="reset-password";
     public static final String login="login";
     public static final String insert_group="creatGroup";
