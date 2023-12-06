@@ -37,7 +37,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.finalpmi.Data.ResApi;
-import com.example.finalpmi.Data.Users;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -58,7 +57,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -67,12 +65,14 @@ public class ActivityRegistrarse extends AppCompatActivity {
     Button btnRegistrarse;
     Spinner Spinner;
     ImageView Img;
+
     String currentPhotoPath;
+    List<String> nombresCarreras = new ArrayList<>();
 
     FirebaseFirestore mfirestore;
     StorageReference mstorage;
     Uri selectedImage;
-    //String currentPhotoPath;
+    String currentPhotoPathFirebase;
     File foto;
     String base64Image;
     static final int Peticion_ElegirGaleria = 103;
@@ -80,13 +80,10 @@ public class ActivityRegistrarse extends AppCompatActivity {
     static final int Peticion_AccesoCamara = 101;
     static final int Peticion_TomarFoto = 102;
     Integer carreraIds = null;
-    List<String> nombresCarreras = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrarse);
-
-
 
         edtNombres = (EditText) findViewById(R.id.ArNombres);
         edtApellidos = (EditText) findViewById(R.id.ArApellidos);
@@ -115,14 +112,28 @@ public class ActivityRegistrarse extends AppCompatActivity {
                 String apellidos = edtApellidos.getText().toString();
                 String correo = edtCorreo.getText().toString();
                 String telefono = edtTelefono.getText().toString();
-                String dni = edtDni.getText().toString();
+                String cuenta = edtDni.getText().toString();
                 String password = edtPassword.getText().toString();
                 long carrera = Spinner.getSelectedItemId();
 
                 // Crear un objeto Usuario
-                Users usuario = new Users(nombres, apellidos, correo, telefono, dni, password, carrera);
-                NewUser(usuario);
 
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("nombre", nombres);
+                    jsonObject.put("apellidos", apellidos);
+                    jsonObject.put("cuenta", cuenta);
+                    jsonObject.put("telefono", telefono);
+                    jsonObject.put("password", password);
+                    jsonObject.put("email", correo);
+                    jsonObject.put("foto", "mdmdedek");
+                    jsonObject.put("carrera", "4");
+
+                    NewUser(jsonObject);
+                } catch (JSONException e) {
+                    Log.d("error 500", String.valueOf(e));
+                    throw new RuntimeException(e);
+                };
             }
         });
     }
@@ -244,26 +255,11 @@ public class ActivityRegistrarse extends AppCompatActivity {
         return Base64.encodeToString(imagearray,Base64.DEFAULT);
     }
 
-    private void NewUser(Users usuario){
-
-        RequestQueue queue= Volley.newRequestQueue(this);//queue=cola
-
-        String url= ResApi.url_server+ResApi.insert_user;
-
-        // Crear un objeto Usuario
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("nombre",Users.getNombres());
-            jsonObject.put("apellidos",Users.getApellidos());
-            jsonObject.put("identidad",Users.getDni());
-            jsonObject.put("telefono",Users.getTelefono());
-            jsonObject.put("password",Users.getPassword());
-            jsonObject.put("email",Users.getCorreo());
-            jsonObject.put("carrera",carreraIds);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+    private void NewUser(JSONObject usuario) {
+        Message message = new Message();
+        String url = ResApi.url_server + ResApi.insert_user;
+        RequestQueue queue = Volley.newRequestQueue(this);
+        Log.d("URL", String.valueOf(url));
 
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -272,13 +268,14 @@ public class ActivityRegistrarse extends AppCompatActivity {
                         // Manejar la respuesta del servidor JSON
                         try{
                             JSONObject jsonObject1=new JSONObject(response);
-
+                            Log.d("Respuesta", String.valueOf(jsonObject1));
                             if(jsonObject1.length()>0){
 
                                 Intent new_window=new Intent(getApplicationContext(), ActivityMenu.class);//new_window=nueva ventana
                                 startActivity(new_window);
+
                             }else{
-                                message("Alerta","Ya existe una cuenta!");
+                                Toast.makeText(getApplicationContext(), "Error:", Toast.LENGTH_LONG).show();
                             }
 
                         }catch(JSONException e){
@@ -300,7 +297,7 @@ public class ActivityRegistrarse extends AppCompatActivity {
         {
             @Override
             public byte[] getBody() {
-                return jsonObject.toString().getBytes();
+                return usuario.toString().getBytes();
             }
             @Override
             public Map<String, String> getHeaders() {
@@ -309,9 +306,10 @@ public class ActivityRegistrarse extends AppCompatActivity {
                 return headers;
             }
         };
-
         queue.add(request);
+
     }
+
 
 
     private void ListaCarreras(android.widget.Spinner spinner){//fill_career=llenar carreras
@@ -473,7 +471,18 @@ public class ActivityRegistrarse extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // La imagen se subió exitosamente
+
                         Toast.makeText(ActivityRegistrarse.this, "Se subió exitosamente la foto.", Toast.LENGTH_SHORT).show();
+                        // Obtén la URL de descarga
+                        filePath.getDownloadUrl().addOnSuccessListener(uri -> {
+                            // Obtén la URL de descarga de la imagen
+                            currentPhotoPathFirebase = uri.toString();
+
+                        Log.d("URL IMAGEN", currentPhotoPathFirebase);
+                        }).addOnFailureListener(e -> {
+                            // Manejar el caso en que la obtención de la URL falle
+                            Toast.makeText(ActivityRegistrarse.this, "Error al obtener la URL de la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
                         obtenerImagenBase64();
                     }
                 })

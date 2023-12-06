@@ -50,14 +50,20 @@ public class MainActivity extends AppCompatActivity {
 
         txtReenvio.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Aquí inicias la ActivityReenvio
-                Intent intent = new Intent(MainActivity.this, ActivityReenvio.class);
-                startActivity(intent);
+            public void onClick(View view) {
+                String correo = edtCorreo.getText().toString().trim();
+
+                if (correo.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Por favor, ingresa tu correo", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    enviarCorreo(correo);
+                    Intent intent = new Intent(MainActivity.this, ActivityReenvio.class);
+                    intent.putExtra("correo", correo);
+                    startActivity(intent);
+                }
             }
         });
-
-
 
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +84,68 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void enviarCorreo(String correo) {
+
+        Message message = new Message();
+        String url =  ResApi.url_server+ResApi.send_mail;
+        RequestQueue queue = Volley.newRequestQueue(this);
+        Log.d("JSON", String.valueOf(url));
+        // Crear un objeto Usuario
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("email",correo);
+
+            Log.d("Valores", String.valueOf(jsonObject));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Manejar la respuesta del servidor JSON
+                        try{
+                            JSONObject jsonObject1=new JSONObject(response);
+                            Log.d("Respuesta", String.valueOf(jsonObject1));
+                            if(jsonObject1.length()>0){
+
+                            }else{
+                                message("Alerta","Ingresa un correo");
+                            }
+
+                        }catch(JSONException e){
+                            e.printStackTrace();
+                            Log.d("JSON", String.valueOf(e));
+                            Toast.makeText(getApplicationContext(), "Error:"+e, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    private void message(String alerta, String s) {
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Manejar errores de la solicitud
+            }
+        })
+
+        {
+            @Override
+            public byte[] getBody() {
+                return jsonObject.toString().getBytes();
+            }
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        queue.add(request);
     }
 
     private void Login(String correo, String password) {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "617857580115",
+    "project_id": "uth-app-chat",
+    "storage_bucket": "uth-app-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617857580115:android:72e11a71047d92c6789aa6",
+        "android_client_info": {
+          "package_name": "com.example.finalpmi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbAlg52CuaoBZPJ3s67KKyfFZmwk_qzpc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
