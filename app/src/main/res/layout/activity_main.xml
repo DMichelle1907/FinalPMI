@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/paisajee"
+    android:background="@drawable/dos"
     android:orientation="vertical"
     android:textAlignment="center"
     tools:context=".MainActivity">
@@ -15,11 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:fontFamily="@font/calistoga"
         android:text="BIENVENIDO"
         android:textAlignment="center"
         android:textSize="34sp"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
+        android:fontFamily="monospace"
         android:textStyle="bold" />
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_marginTop="70dp"
         android:layout_marginEnd="30dp"
         android:text="Correo:"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
         android:ems="10"
         android:inputType="text"
         android:text=""
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textSize="18sp" />
 
     <TextView
@@ -54,7 +54,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:text="Contraseña"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -67,7 +67,7 @@
         android:layout_marginEnd="30dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textSize="18sp" />
 
     <Button
@@ -91,6 +91,7 @@
         android:text="¿Olvidaste tu contraseña?"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textColor="#FFFFFF"
         android:textStyle="bold|italic" />
 
 

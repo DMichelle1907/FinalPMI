@@ -33,10 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private FragmentUsersBinding binding;
     EditText edtCorreo, edtPassword;
     Button btnRegistrarse, btnIniciar;
-    TextView nombrePerfil, correoPerfil, txtReenvio;
+    TextView txtReenvio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     enviarCorreo(correo);
+                    Toast.makeText(MainActivity.this, "Correo enviado a: " + correo , Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, ActivityReenvio.class);
                     intent.putExtra("correo", correo);
                     startActivity(intent);
@@ -70,8 +70,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String correo = edtCorreo.getText().toString();
                 String password = edtPassword.getText().toString();
+               if (password.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Por favor, ingresa tu contraseña", Toast.LENGTH_SHORT).show();
+                }
+                else if (correo.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Por favor, ingresa tu correo", Toast.LENGTH_SHORT).show();
+                }
+               else{
+                   Login(correo, password);
+               }
 
-                Login(correo, password);
             }
         });
 

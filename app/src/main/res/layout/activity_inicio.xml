@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2F70AF"
+    android:background="@drawable/oscuro"
     tools:context=".Inicio">
 
     <LinearLayout
@@ -12,6 +12,20 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="50dp"
+            android:text="DOC APP"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:fontFamily="monospace"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="258dp"
